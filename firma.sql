@@ -43,3 +43,23 @@ SELECT * FROM pracownicy ORDER BY imie_i_nazw;
 SELECT * FROM wydzialy;
 
 
+#uwaga: kwerendy (4)-(7) dotyczą danych tylko z jednej tabeli
+
+#(4)Utworzyć kwerendę wyświetlającą pracowników urodzonych pomiędzy 1960-01-01 a 1970-01-01:
+
+SELECT pracownicy.imie_i_nazw, pracownicy.d_ur FROM pracownicy
+WHERE pracownicy.d_ur >= '1960-01-01' and pracownicy.d_ur <= '1970-01-01';
+
+
+#(5)Utworzyć kwerendę zliczającą wszystkich pracowników (należy użyć funkcji COUNT):
+
+SELECT COUNT(*) ilosc_pracownikow
+FROM pracownicy;
+
+
+#(6)Utworzyć kwerendę zliczającą pracowników dla każdego numeru wydziału (należy użyć funkcji COUNT i komendy GROUP BY):
+
+SELECT pracownicy.numer_wydz
+COUNT(*) ilosc_pracownikow
+FROM pracownicy
+GROUP BY pracownicy.numer_wydz;
