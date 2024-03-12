@@ -37,6 +37,13 @@ INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
 VALUES (9006, 'Barbara Cetryk',   STR_TO_DATE('1963-09-19', '%Y-%m-%d'), 128);
 
 
+INSERT INTO wydzialy(numer_wydz, nazwa_wydz)
+VALUES (42, 'Finanse');
+
+INSERT INTO wydzialy(numer_wydz, nazwa_wydz)
+VALUES (128, 'Badania i Rozw');
+
+
 #(3)Sprawdzić prawidłowość utworzenia tabel i wpisania danych (SELECT *):
 
 SELECT * FROM pracownicy ORDER BY imie_i_nazw;
