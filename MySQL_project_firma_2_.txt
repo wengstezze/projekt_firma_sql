@@ -1,0 +1,237 @@
+Last login: Mon Mar 11 20:52:54 on ttys001
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+MacBook-Pro-Tomek:~ tomekszmuc_$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 21
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| MySQL_db           |
+| performance_schema |
+| projekt_firma      |
+| sys                |
+| szkola             |
++--------------------+
+7 rows in set (0,00 sec)
+
+mysql> use szkola
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables
+    -> show tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'show tables' at line 2
+mysql> show tables;
++------------------+
+| Tables_in_szkola |
++------------------+
+| coffe_table      |
+| tab_probna       |
+| tabelka          |
++------------------+
+3 rows in set (0,00 sec)
+
+mysql> use projekt_firma
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-------------------------+
+| Tables_in_projekt_firma |
++-------------------------+
+| pracownicy              |
+| wydzialy                |
++-------------------------+
+2 rows in set (0,00 sec)
+
+mysql> select pracownicy.numer_wydz COUNT(*) ilosc_pracownikow FROM pracownicy GROUP BY pracownicy.numer_wydz;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COUNT(*) ilosc_pracownikow FROM pracownicy GROUP BY pracownicy.numer_wydz' at line 1
+mysql> select pracownicy.numer_wydz COUNT(*) AS ilosc_pracownikow FROM pracownic
+y GROUP BY pracownicy.numer_wydz;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COUNT(*) AS ilosc_pracownikow FROM pracownicy GROUP BY pracownicy.numer_wydz' at line 1
+mysql> select pracownicy.numer_wydz, COUNT(*) AS ilosc_pracownikow FROM pracownicy GROUP BY pracownicy.numer_wydz;
++------------+-------------------+
+| numer_wydz | ilosc_pracownikow |
++------------+-------------------+
+|        128 |                 4 |
++------------+-------------------+
+1 row in set (0,01 sec)
+
+mysql> select pracownicy.numer_wydz, COUNT(*) ilosc_pracownikow FROM pracownicy
+GROUP BY pracownicy.numer_wydz;
++------------+-------------------+
+| numer_wydz | ilosc_pracownikow |
++------------+-------------------+
+|        128 |                 4 |
++------------+-------------------+
+1 row in set (0,01 sec)
+
+mysql> SELECT pracownicy.numer_wydz, COUNT(*) ilosc_pracownikow FROM pracownicy GROUP BY pracownicy.numer_wydz;
++------------+-------------------+
+| numer_wydz | ilosc_pracownikow |
++------------+-------------------+
+|        128 |                 4 |
++------------+-------------------+
+1 row in set (0,00 sec)
+
+mysql> SELECT pracownicy.numer_wydz, COUNT(imie_i_nazwisko) ilosc_pracownikow FR
+OM pracownicy GROUP BY pracownicy.numer_wydz;
+ERROR 1054 (42S22): Unknown column 'imie_i_nazwisko' in 'field list'
+mysql> SELECT pracownicy.numer_wydz, COUNT(imie_i_nazw) ilosc_pracownikow FROM pracownicy GROUP BY pracownicy.numer_wydz;
++------------+-------------------+
+| numer_wydz | ilosc_pracownikow |
++------------+-------------------+
+|        128 |                 4 |
++------------+-------------------+
+1 row in set (0,00 sec)
+
+mysql> select * from pracownicy;
++---------+------------------+------------+------------+
+| id_prac | imie_i_nazw      | d_ur       | numer_wydz |
++---------+------------------+------------+------------+
+|    6651 | Andrzej Plater   | 1978-12-22 |        128 |
+|    7513 | Ewa Nowacka      | 1967-05-02 |        128 |
+|    9006 | Barbara Cetryk   | 1963-09-19 |        128 |
+|    9842 | Bartosz Kowalski | 1957-09-15 |        128 |
++---------+------------------+------------+------------+
+4 rows in set (0,01 sec)
+
+mysql> UPDATE pracownicy SET numer_wydz = 42 WHERE imie_i_nazw = "Bartosz Kowalski";
+Query OK, 1 row affected (0,00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from pracownicy;
++---------+------------------+------------+------------+
+| id_prac | imie_i_nazw      | d_ur       | numer_wydz |
++---------+------------------+------------+------------+
+|    6651 | Andrzej Plater   | 1978-12-22 |        128 |
+|    7513 | Ewa Nowacka      | 1967-05-02 |        128 |
+|    9006 | Barbara Cetryk   | 1963-09-19 |        128 |
+|    9842 | Bartosz Kowalski | 1957-09-15 |         42 |
++---------+------------------+------------+------------+
+4 rows in set (0,00 sec)
+
+mysql> SELECT pracownicy.numer_wydz, COUNT(*) ilosc_pracownikow FROM pracownicy
+GROUP BY pracownicy.numer_wydz;
++------------+-------------------+
+| numer_wydz | ilosc_pracownikow |
++------------+-------------------+
+|        128 |                 3 |
+|         42 |                 1 |
++------------+-------------------+
+2 rows in set (0,00 sec)
+
+mysql> SELECT pracownicy.imie_i_nazw, pracownicy.numer_wydz
+    -> FROM pracownicy 
+    -> WHERE pracownicy.numer_wydz = (SELECT pracownicy.numer_wydz
+    -> 
+Display all 773 possibilities? (y or n) 
+    -> n
+    -> n'
+    '> n;
+    '> 
+[1]+  Stopped                 mysql -u root -p
+MacBook-Pro-Tomek:~ tomekszmuc_$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 22
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use projekt_firma
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT pracownicy.imie_i_nazw, pracownicy.numer_wydz
+    -> FROM pracownicy
+    -> WHERE pracownicy.numer_wydz = (
+    -> SELECT pracownicy.numer_wydz
+    -> FROM pracownicy
+    -> WHERE pracownicy.imie_i_nazw = "Ewa Nowacka"
+    -> );
++----------------+------------+
+| imie_i_nazw    | numer_wydz |
++----------------+------------+
+| Andrzej Plater |        128 |
+| Ewa Nowacka    |        128 |
+| Barbara Cetryk |        128 |
++----------------+------------+
+3 rows in set (0,00 sec)
+
+mysql> SELECT pracownicy.imie_i_nazw, wydzialy.numer_wydz, wydzialy.nazwa_wydz
+    -> FROM pracownicy
+    -> INNER JOIN wydzialy ON wydzialy.numer_wydz = pracownicy.numer_wydz;
++------------------+------------+----------------+
+| imie_i_nazw      | numer_wydz | nazwa_wydz     |
++------------------+------------+----------------+
+| Andrzej Plater   |        128 | Badania i Rozw |
+| Ewa Nowacka      |        128 | Badania i Rozw |
+| Barbara Cetryk   |        128 | Badania i Rozw |
+| Bartosz Kowalski |         42 | Finanse        |
++------------------+------------+----------------+
+4 rows in set (0,00 sec)
+
+mysql> SELECT wydzialy.nazwa_wydz, 
+    ->    COUNT(pracownicy.id_prac) ilosc_pracownikow
+    -> FROM pracownicy
+    -> INNER JOIN wydzialy ON wydzialy.numer_wydz = pracownicy.numer_wydz
+    -> GROUP BY wydzialy.nazwa_wydz;
++----------------+-------------------+
+| nazwa_wydz     | ilosc_pracownikow |
++----------------+-------------------+
+| Badania i Rozw |                 3 |
+| Finanse        |                 1 |
++----------------+-------------------+
+2 rows in set (0,00 sec)
+
+mysql> ALTER TABLE pracownicy
+    -> ADD CONSTRAINT pracownicy_ref1
+    -> FOREIGN KEY (wydzialy)
+    -> REFERENCES wydzialy (numer_wydz);
+ERROR 1072 (42000): Key column 'wydzialy' doesn't exist in table
+mysql> select * from wydzialy;
++------------+----------------+
+| numer_wydz | nazwa_wydz     |
++------------+----------------+
+|         42 | Finanse        |
+|        128 | Badania i Rozw |
++------------+----------------+
+2 rows in set (0,00 sec)
+
+mysql> ALTER TABLE pracownicy ADD CONSTRAINT pracownicy_ref1 FOREIGN KEY (numer_wydz) REFERENCES wydzialy (numer_wydz);
+Query OK, 4 rows affected (0,04 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO pracownicy (id_prac, imie_i_nazw, d_ur, numer_wydz) 
+    -> VALUES (8525, 'Adam Małysz', STR_TO_DATE('1960-09-19', '%Y-%m-%d'), 12);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`projekt_firma`.`pracownicy`, CONSTRAINT `pracownicy_ref1` FOREIGN KEY (`numer_wydz`) REFERENCES `wydzialy` (`numer_wydz`))
+mysql> quit
+Bye
+MacBook-Pro-Tomek:~ tomekszmuc_$ 

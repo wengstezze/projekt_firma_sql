@@ -1,0 +1,174 @@
++--------------------+
+6 rows in set (0,00 sec)
+
+mysql> use MySQL_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_mysql_db |
++--------------------+
+| ksiazki            |
+| osoby              |
+| wypozyczenia       |
++--------------------+
+3 rows in set (0,01 sec)
+
+mysql> clear
+mysql> clear;
+mysql> quit
+Bye
+MacBook-Pro-Tomek:projekt_firma_sql tomekszmuc_$ clear
+
+MacBook-Pro-Tomek:projekt_firma_sql tomekszmuc_$ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 20
+Server version: 8.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database projekt_firma;
+Query OK, 1 row affected (0,00 sec)
+
+mysql> use projekt_firma;
+Database changed
+mysql> create table pracownicy (
+    -> id_prac int primary key not null,
+    -> imie_i_nazw varchar(30) not null,
+    -> d_ur date not null,
+    -> numer_wydz int not null
+    -> );
+Query OK, 0 rows affected (0,02 sec)
+
+mysql> create table wydzialy ( numer_wydz int primary key not null, nazwa_wydz varchar(20) not null );
+Query OK, 0 rows affected (0,02 sec)
+
+mysql> show tables;
++-------------------------+
+| Tables_in_projekt_firma |
++-------------------------+
+| pracownicy              |
+| wydzialy                |
++-------------------------+
+2 rows in set (0,00 sec)
+
+mysql> describe pracownicy;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id_prac     | int         | NO   | PRI | NULL    |       |
+| imie_i_nazw | varchar(30) | NO   |     | NULL    |       |
+| d_ur        | date        | NO   |     | NULL    |       |
+| numer_wydz  | int         | NO   |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0,01 sec)
+
+mysql> INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
+    -> VALUES (7513, 'Ewa Nowacka',   STR_TO_DATE('1967-05-02', '%Y-%m-%d'), 128);
+Query OK, 1 row affected (0,01 sec)
+
+mysql> select * from wydzialy
+    -> select * from wydzialy;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select * from wydzialy' at line 2
+mysql> select * from wydzialy;
+Empty set (0,03 sec)
+
+mysql> INSERT INTO wydzialy(numer_wydz, nazwa_wydz)
+    -> VALUES (42, 'Finanse');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> INSERT INTO wydzialy(numer_wydz, nazwa_wydz)
+    -> VALUES (128, 'Badania i Rozw');
+Query OK, 1 row affected (0,00 sec)
+
+mysql> select * from wydzialy;
++------------+----------------+
+| numer_wydz | nazwa_wydz     |
++------------+----------------+
+|         42 | Finanse        |
+|        128 | Badania i Rozw |
++------------+----------------+
+2 rows in set (0,00 sec)
+
+mysql> select * from pracownicy;
++---------+-------------+------------+------------+
+| id_prac | imie_i_nazw | d_ur       | numer_wydz |
++---------+-------------+------------+------------+
+|    7513 | Ewa Nowacka | 1967-05-02 |        128 |
++---------+-------------+------------+------------+
+1 row in set (0,00 sec)
+
+mysql> INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz) 
+    -> VALUES (9842, 'Bartosz Kowalski', STR_TO_DATE('1957-09-15', '%Y-%m-%d'), 128);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
+    -> VALUES (6651, 'Andrzej Plater',   STR_TO_DATE('1978-12-22', '%Y-%m-%d'), 128);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
+    -> VALUES (9006, 'Barbara Cetryk',   STR_TO_DATE('1963-09-19', '%Y-%m-%d'), 128);
+Query OK, 1 row affected (0,00 sec)
+
+mysql> SELECT * FROM pracownicy ORDER BY imie_i_nazw;
++---------+------------------+------------+------------+
+| id_prac | imie_i_nazw      | d_ur       | numer_wydz |
++---------+------------------+------------+------------+
+|    6651 | Andrzej Plater   | 1978-12-22 |        128 |
+|    9006 | Barbara Cetryk   | 1963-09-19 |        128 |
+|    9842 | Bartosz Kowalski | 1957-09-15 |        128 |
+|    7513 | Ewa Nowacka      | 1967-05-02 |        128 |
++---------+------------------+------------+------------+
+4 rows in set (0,01 sec)
+
+mysql> select * from wydzialy;
++------------+----------------+
+| numer_wydz | nazwa_wydz     |
++------------+----------------+
+|         42 | Finanse        |
+|        128 | Badania i Rozw |
++------------+----------------+
+2 rows in set (0,01 sec)
+
+mysql> SELECT pracownicy.imie_i_nazw, pracownicy.d_ur FROM pracownicy
+    -> WHERE pracownicy.d_ur >= '1960-01-01' and pracownicy.d_ur <= '1970-01-01';
++----------------+------------+
+| imie_i_nazw    | d_ur       |
++----------------+------------+
+| Ewa Nowacka    | 1967-05-02 |
+| Barbara Cetryk | 1963-09-19 |
++----------------+------------+
+2 rows in set (0,00 sec)
+
+mysql> SELECT COUNT(*) ilosc_pracownikow FROM pracownicy;
++-------------------+
+| ilosc_pracownikow |
++-------------------+
+|                 4 |
++-------------------+
+1 row in set (0,01 sec)
+
+mysql> SELECT pracownicy.numer_wydz
+    -> COUNT(*) ilosc_pracownikow
+    -> FROM pracownicy
+    -> GROUP BY pracownicy.numer_wydz;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COUNT(*) ilosc_pracownikow
+FROM pracownicy
+GROUP BY pracownicy.numer_wydz' at line 2
+mysql> SELECT pracownicy.numer_wydz
+    -> COUNT(*) AS ilosc_pracownikow
+    -> FROM pracownicy
+    -> GROUP BY pracownicy.numer_wydz;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COUNT(*) AS ilosc_pracownikow
+FROM pracownicy
+GROUP BY pracownicy.numer_wydz' at line 2
+mysql> 
