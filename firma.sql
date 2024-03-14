@@ -66,7 +66,7 @@ FROM pracownicy;
 
 #(6)Utworzyć kwerendę zliczającą pracowników dla każdego numeru wydziału (należy użyć funkcji COUNT i komendy GROUP BY):
 
-SELECT pracownicy.numer_wydz
+SELECT pracownicy.numer_wydz,
 COUNT(*) ilosc_pracownikow
 FROM pracownicy
 GROUP BY pracownicy.numer_wydz;
