@@ -28,7 +28,7 @@ INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
 VALUES (7513, 'Ewa Nowacka', 	  STR_TO_DATE('1967-05-02', '%Y-%m-%d'), 128);
 
 INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
-VALUES (9842, 'Bartosz Kowalski', STR_TO_DATE('1957-09-15', '%Y-%m-%d'), 128);
+VALUES (9842, 'Bartosz Kowalski', STR_TO_DATE('1957-09-15', '%Y-%m-%d'), 42);
 
 INSERT INTO pracownicy(id_prac, imie_i_nazw, d_ur, numer_wydz)
 VALUES (6651, 'Andrzej Plater',   STR_TO_DATE('1978-12-22', '%Y-%m-%d'), 128);
@@ -60,7 +60,7 @@ WHERE pracownicy.d_ur >= '1960-01-01' and pracownicy.d_ur <= '1970-01-01';
 
 #(5)Utworzyć kwerendę zliczającą wszystkich pracowników (należy użyć funkcji COUNT):
 
-SELECT COUNT(*) ilosc_pracownikow
+SELECT COUNT(*) ilosc_pracownikow 
 FROM pracownicy;
 
 
