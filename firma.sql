@@ -103,7 +103,7 @@ GROUP BY wydzialy.nazwa_wydz;
 
 ALTER TABLE pracownicy
 ADD CONSTRAINT pracownicy_ref1
-FOREIGN KEY (wydzialy)
+FOREIGN KEY (numer_wydz)
 REFERENCES wydzialy (numer_wydz);
 
 
